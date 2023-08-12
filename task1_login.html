@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple login  Form</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Simple Login Form</h2>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email address:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="phone">Phone number:</label>
+        <input type="tel" id="phone" name="phone" required>
+        
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Submit</button>
+    </form>
+    
+    <div id="error-message" class="error"></div>
+    <div id="success-message" class="success"></div>
+    
+    <script>
+        const form = document.getElementById('myForm');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Reset error and success messages
+            errorMessage.textContent = '';
+            successMessage.textContent = '';
+            
+            // Check for empty fields
+            let hasError = false;
+            const inputs = form.querySelectorAll('input[required]');
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.style.border = '1px solid red';
+                    hasError = true;
+                } else {
+                    input.style.border = '1px solid #ccc';
+                }
+            });
+            
+            if (hasError) {
+                errorMessage.textContent = 'Please fill in all required fields.';
+                return;
+            }
+            
+            // Check email format
+            const emailInput = form.querySelector('#email');
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(emailInput.value)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                emailInput.style.border = '1px solid red';
+                return;
+            }
+            
+            // Display success message
+            successMessage.textContent = 'Form submitted successfully!';
+        });
+    </script>
+</body>
+</html>
